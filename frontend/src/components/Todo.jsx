@@ -4,7 +4,7 @@ import Delete from "./Delete";
 
 function Todo() {
   const [todos, setTodos] = useState([]);
-  const [styled, setStyled] = useState(false);
+  const [style, setStyle] = useState(false);
 
   function getTodos() {
     axios
@@ -24,26 +24,21 @@ function Todo() {
     console.log("patch laddades");
   }
 
-  const checkedTask = (done, id) => {
-    console.log("klickad!");
-    // lägga in en ternery för att ändra mellan true/false?
-    change(done, id);
-
-    if (done) {
-      console.log(`done is now ${done} at id ${id}`);
-      const krisp = {
-        // color: "rgba(0, 0, 0, 0.233)",
-        textdecoration: "line-through",
-      };
+  // Måste få till det att vid avbockning av checkbox så sättes den som false igen..
+  function compare(done, id) {
+    console.log(`compare done is ${done}`);
+    if (done === true) {
+      change(done, id);
     } else {
-      console.log(`done is now ${done} at id ${id}`);
-    //   const failed = {
-    //     color: "black",
-    //   };
+      change(done, id);
+      console.log("läses den här av som false? Ja det gör den");
     }
-  };
+  }
 
-  //   if todo.finished > styling
+  const checkedTask = (done, id) => {
+    console.log(`klickad! Done är nu satt som ${!done} & idt är ${id}`);
+    compare(!done, id);
+  };
 
   useEffect(() => {
     getTodos();
@@ -57,12 +52,14 @@ function Todo() {
             type="checkbox"
             // checked={todo.finished ? true : false}
             onClick={() => [
-              checkedTask(!todo.finished, todo.id),
-              //   styledTask(!todo.finished, todo.id),
+              "checked"
+                ? checkedTask(todo.finished, todo.id)
+                : checkedTask(!todo.finished, todo.id),
+              // , styledTask(todo.finished, todo.id)
             ]}
           />
           <h5
-            style={checkedTask()}
+            className={style ? "checked" : "check"}
             value={todo.id}
             // key={todo.id}
           >
