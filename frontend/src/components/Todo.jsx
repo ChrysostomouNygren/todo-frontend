@@ -4,8 +4,10 @@ import Delete from "./Delete";
 
 function Todo() {
   const [todos, setTodos] = useState([]);
+  const [donish, setDonish] = useState(false);
   const [style, setStyle] = useState(false);
 
+  // fungerar bra.
   function getTodos() {
     axios
       .get("http://localhost:4000/todos")
@@ -17,6 +19,14 @@ function Todo() {
     console.log("get laddades in");
   }
 
+  // fungerar alldeles utmärkt.
+  // varför startade jag inte med den här först?!
+  function deleteTodo(id) {
+    axios.delete(`http://localhost:4000/todos/${id}`);
+    console.log(`du lyckades ta bort todon med id:t ${id}`);
+  }
+
+  // fungerar mindre bra.
   async function change(done, id) {
     await axios.patch(`http://localhost:4000/todos/${id}`, {
       finished: done,
@@ -37,7 +47,9 @@ function Todo() {
 
   const checkedTask = (done, id) => {
     console.log(`klickad! Done är nu satt som ${!done} & idt är ${id}`);
+    setDonish(!donish);
     compare(!done, id);
+    console.log(`donishs value is ${!donish} and dones value is ${!done}`);
   };
 
   useEffect(() => {
@@ -67,7 +79,14 @@ function Todo() {
           </h5>
           {/* edit knapp */}
           {/* delete knapp */}
-          <Delete />
+          {/* <Delete /> */}
+          <button
+            onClick={() => {
+              [deleteTodo(todo.id), window.location.reload()];
+            }}
+          >
+            delete
+          </button>
         </div>
       ))}
     </div>
