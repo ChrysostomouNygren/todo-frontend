@@ -62,13 +62,18 @@ function Todo() {
         <div key={todo.id}>
           <input
             type="checkbox"
-            // checked={todo.finished ? true : false}
+            checked={todo.finished ? true : false}
+
+            // här behöver jag ändra koden... så det går att avbocka...
             onClick={() => [
               "checked"
                 ? checkedTask(todo.finished, todo.id)
                 : checkedTask(!todo.finished, todo.id),
               // , styledTask(todo.finished, todo.id)
             ]}
+            onChange={() => {
+              window.location.reload();
+            }}
           />
           <h5
             className={style ? "checked" : "check"}
@@ -78,7 +83,7 @@ function Todo() {
             {todo.task}
           </h5>
           {/* edit knapp */}
-          {/* delete knapp */}
+          <button>edit</button>
           {/* <Delete /> */}
           <button
             onClick={() => {
