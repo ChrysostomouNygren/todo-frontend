@@ -26,6 +26,13 @@ function Todo() {
     console.log(`du lyckades ta bort todon med id:t ${id}`);
   }
 
+  async function edit(changedTask, id) {
+    await axios.patch(`http://localhost:4000/todos/${id}`, {
+      task: changedTask,
+    });
+    console.log("edit laddades.");
+  }
+
   // fungerar mindre bra.
   async function change(done, id) {
     await axios.patch(`http://localhost:4000/todos/${id}`, {
@@ -44,17 +51,50 @@ function Todo() {
       console.log("läses den här av som false? Ja det gör den");
     }
   }
+  function reset(done, id) {
+    if (done) {
+      console.log(
+        `nu ska värdet på done vara satt till true. Är det de: ${done}`
+      );
+      done = false;
+      change(done, id);
+      console.log(
+        `nu ska värdet på done vara satt till false. Är det de: ${done}`
+      );
+    } else if (!done) {
+      done = true;
+      change(done, id);
+      console.log(
+        `nu ska värdet på done vara satt till true. Är det de: ${done}`
+      );
+    }
+  }
 
   const checkedTask = (done, id) => {
     console.log(`klickad! Done är nu satt som ${!done} & idt är ${id}`);
-    setDonish(!donish);
-    compare(!done, id);
+    // setDonish(!donish);
+    // compare(!done, id);
     console.log(`donishs value is ${!donish} and dones value is ${!done}`);
   };
+
+
+
+
+
+
 
   useEffect(() => {
     getTodos();
   }, []);
+
+
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -63,17 +103,18 @@ function Todo() {
           <input
             type="checkbox"
             checked={todo.finished ? true : false}
-
             // här behöver jag ändra koden... så det går att avbocka...
+            // göra den false igen.
             onClick={() => [
               "checked"
-                ? checkedTask(todo.finished, todo.id)
-                : checkedTask(!todo.finished, todo.id),
+                ? reset(todo.finished, todo.id)
+                : reset(!todo.finished, todo.id),
+              // reset(todo.finished, todo.id)
               // , styledTask(todo.finished, todo.id)
             ]}
-            onChange={() => {
-              window.location.reload();
-            }}
+            // onChange={() => {
+            //   window.location.reload();
+            // }}
           />
           <h5
             className={style ? "checked" : "check"}
