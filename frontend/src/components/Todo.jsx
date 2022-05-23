@@ -1,15 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Delete from "./Delete";
 
-import { idState } from "../recoil/id/atom";
-import { useRecoilState } from "recoil";
 
 function Todo() {
   const [todos, setTodos] = useState([]);
-  const [donish, setDonish] = useState(false);
   const [style, setStyle] = useState(false);
-  const [editor, setEditor] = useRecoilState(idState);
 
   // fungerar bra.
   function getTodos() {
@@ -86,7 +81,6 @@ function Todo() {
           <h5
             className={style ? "checked" : "check"}
             value={todo.id}
-            // key={todo.id}
           >
             {todo.task}
           </h5>
