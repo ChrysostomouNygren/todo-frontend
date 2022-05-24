@@ -1,13 +1,15 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Todo from "./Todo";
 
 function TodoList() {
-
+  const box = {
+    width: "350px",
+    marginLeft: "auto",
+    marginRight: "auto",
+  };
 
   return (
-    <div>
-        <Todo />
+    <div style={box}>
+      <Todo />
     </div>
   );
 }
