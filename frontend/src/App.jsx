@@ -7,7 +7,7 @@ import TodoList from "./components/TodoList";
 function App() {
 
   const headerStyle = {
-    textAlign: "center"
+    textAlign: "center",
   }
 
   return (

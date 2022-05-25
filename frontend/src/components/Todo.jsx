@@ -4,17 +4,28 @@ import { useEffect, useState } from "react";
 function Todo() {
   const [todos, setTodos] = useState([]);
 
+  // Styling för todo
+  const todoStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  };
   // Styling för färdig todo.
   const style = {
     color: "rgba(0, 0, 0, 0.233)",
     textDecoration: "line-through",
   };
-
-  const todoStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  }
+  // Styling för checkboxen
+  const boxStyle = {
+    accentColor: "black",
+  };
+  // Styling för knapp
+  const deleteButton = {
+    background: "transparent",
+    border: "0px",
+  };
 
   // Hämtar todos.
   function getTodos() {
@@ -29,6 +40,7 @@ function Todo() {
   // Tar bort todos.
   function deleteTodo(id) {
     axios.delete(`http://localhost:4000/todos/${id}`);
+    getTodos();
   }
 
   // Ändrar todos i backenden.
@@ -43,9 +55,11 @@ function Todo() {
     if (done) {
       done = false;
       change(done, id);
+      getTodos();
     } else if (!done) {
       done = true;
       change(done, id);
+      getTodos();
     }
   }
 
@@ -57,30 +71,29 @@ function Todo() {
     <div>
       {todos.map((todo) => (
         <div key={todo.id} style={todoStyle}>
+          {/* Checkbox */}
           <input
+            style={boxStyle}
             type="checkbox"
             checked={todo.finished ? true : false}
-            // här behöver jag ändra koden... så det går att avbocka...
-            // göra den false igen.
             onClick={() => [
               "checked"
                 ? reset(todo.finished, todo.id)
                 : reset(todo.finished, todo.id),
             ]}
-            onChange={() => {
-              window.location.reload();
-            }}
           />
+          {/* Todo */}
           <h5 style={todo.finished ? style : undefined} value={todo.id}>
             {todo.task}
           </h5>
           {/* <Delete /> */}
           <button
+            style={deleteButton}
             onClick={() => {
-              [deleteTodo(todo.id), window.location.reload()];
+              [deleteTodo(todo.id)];
             }}
           >
-            delete
+            ❌
           </button>
         </div>
       ))}
